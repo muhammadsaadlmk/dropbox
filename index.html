@@ -13,25 +13,25 @@
             text-align: center;
             margin: 0;
             padding: 0;
-            height: 100vh;
+            height: 100%;
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #2a4d77;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
         }
 
         h1 {
             font-size: 2.5rem;
-            color: #2a4d77;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 1.1rem;
-            color: #5e6c7e;
-            margin-bottom: 30px;
-            max-width: 600px;
-            line-height: 1.5;
+            color: white;
+            margin: 0;
         }
 
         /* Input and Button Styles */
@@ -77,6 +77,16 @@
             line-height: 1.5;
         }
 
+        /* Footer Styles */
+        footer {
+            background-color: #2a4d77;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
         /* Box-shadow effect for input and button */
         input, button {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -84,34 +94,64 @@
 
         /* Responsive Styles */
         @media (max-width: 768px) {
+            header {
+                padding: 15px;
+            }
+
             h1 {
                 font-size: 2rem;
             }
 
-            p {
+            input {
+                max-width: 90%;
                 font-size: 1rem;
             }
 
-            input {
+            button {
                 max-width: 90%;
+                font-size: 1rem;
             }
 
-            button {
-                width: 100%;
+            footer {
+                padding: 10px;
+            }
+        }
+
+        /* Very small screens (extra mobile) */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            input, button {
+                font-size: 0.9rem;
+            }
+
+            footer {
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <h1>Dropbox Link Converter</h1>
-    <p>Enter your Dropbox link below to convert it into a direct download link.</p>
-    <input type="text" id="originalLink" placeholder="Enter your Dropbox link" />
-    <br />
-    <button onclick="convert()">Convert</button>
-    <div class="output">
-        <strong>Converted Link:</strong>
-        <p id="convertedLink"></p>
-    </div>
+    <header>
+        <h1>Dropbox Link Converter</h1>
+    </header>
+
+    <main>
+        <p>Enter your Dropbox link below to convert it into a direct download link.</p>
+        <input type="text" id="originalLink" placeholder="Enter your Dropbox link" />
+        <br />
+        <button onclick="convert()">Convert</button>
+        <div class="output">
+            <strong>Converted Link:</strong>
+            <p id="convertedLink"></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Dropbox Link Converter. All rights reserved. | Created by MS Prime Tech Services</p>
+    </footer>
 
     <script>
         function convertDropboxLink(originalLink) {
