@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dropbox Link to Iframe Converter</title>
+    <title>Dropbox Link Converter</title>
     <style>
         /* Global Styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9fafb;
+            background-color: #f4f7fc;
             color: #333;
             text-align: center;
             margin: 0;
@@ -22,16 +22,16 @@
 
         h1 {
             font-size: 2.5rem;
-            color: #2d5d87;
+            color: #2a4d77;
             margin-bottom: 20px;
         }
 
         p {
             font-size: 1.1rem;
-            color: #5f6d7e;
+            color: #5e6c7e;
             margin-bottom: 30px;
             max-width: 600px;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         /* Input and Button Styles */
@@ -41,7 +41,7 @@
             padding: 12px 20px;
             font-size: 1rem;
             border: 2px solid #ddd;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-bottom: 20px;
             outline: none;
             box-sizing: border-box;
@@ -58,7 +58,7 @@
             color: white;
             font-size: 1.1rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s ease-in-out;
         }
@@ -119,22 +119,57 @@
     </style>
 </head>
 <body>
+    <!-- Dropbox Link Converter Section -->
+    <h1>Dropbox Link Converter</h1>
+    <p>Enter your Dropbox link below to convert it into a direct download link.</p>
+    <input type="text" id="originalLink" placeholder="Enter your Dropbox link" />
+    <br />
+    <button onclick="convert()">Convert</button>
+    <div class="output">
+        <strong>Converted Link:</strong>
+        <p id="convertedLink"></p>
+    </div>
+
+    <!-- Dropbox Link to Iframe Converter Section -->
     <h1>Dropbox Link to Iframe Converter</h1>
     <p>Enter your Dropbox link below to convert it into an iframe embed code.</p>
-
-    <!-- Input for link -->
     <input type="text" id="inputLink" placeholder="Enter Dropbox link" />
     <br />
     <button onclick="generateIframeCode()">Generate Iframe</button>
-    
-    <!-- Output section for iframe code -->
     <div class="output">
         <strong>Generated Iframe Embed Code:</strong>
         <pre id="iframeEmbedCode"></pre>
     </div>
 
     <script>
-        // Function to generate iframe embed code
+        // Function to convert Dropbox link to direct download link
+        function convertDropboxLink(originalLink) {
+            if (!originalLink.includes("dropbox.com")) {
+                return "Invalid Dropbox link.";
+            }
+            // Replacing Dropbox URL format for direct access
+            let convertedLink = originalLink
+                .replace("www.dropbox.com", "dl.dropboxusercontent.com")
+                .replace("dropbox.com", "dl.dropboxusercontent.com");
+
+            // Ensuring the correct ending for direct download links
+            if (!convertedLink.includes("?raw=1")) {
+                convertedLink += "?raw=1";
+            }
+            return convertedLink;
+        }
+
+        function convert() {
+            const originalLink = document.getElementById("originalLink").value.trim();
+            if (originalLink === "") {
+                document.getElementById("convertedLink").textContent = "Please enter a Dropbox link.";
+            } else {
+                const convertedLink = convertDropboxLink(originalLink);
+                document.getElementById("convertedLink").textContent = convertedLink;
+            }
+        }
+
+        // Function to generate iframe embed code from Dropbox link
         function generateIframeCode() {
             const inputLink = document.getElementById("inputLink").value.trim();
 
