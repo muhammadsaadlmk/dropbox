@@ -132,8 +132,8 @@
 
             // Convert Dropbox URL format for direct access
             let convertedLink = originalLink
-                .replace("www.dropbox.com", "dl.dropbox.com")
-                .replace("dropbox.com", "dl.dropbox.com");
+                .replace("www.dropbox.com", "dl.dropbox.com") 
+                .replace("dropbox.com", "dl.dropbox.com"); 
 
             // Ensure the correct ending for direct download links
             if (!convertedLink.includes("?raw=1")) {
