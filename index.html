@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropbox Link Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 20px;
+            font-size: 1.2em;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dropbox Link Converter</h1>
+    <p>Enter your Dropbox link below to convert it into a direct download link.</p>
+    <input type="text" id="originalLink" placeholder="Enter your Dropbox link" />
+    <br />
+    <button onclick="convert()">Convert</button>
+    <div class="output">
+        <strong>Converted Link:</strong>
+        <p id="convertedLink"></p>
+    </div>
+
+    <script>
+        function convertDropboxLink(originalLink) {
+            if (!originalLink.includes("dropbox.com")) {
+                return "Invalid Dropbox link.";
+            }
+            return originalLink
+                .replace("www.dropbox.com", "dl.dropboxusercontent.com")
+                .replace("dropbox.com", "dl.dropboxusercontent.com")
+                .replace("?dl=0", "?raw=1");
+        }
+
+        function convert() {
+            const originalLink = document.getElementById("originalLink").value;
+            const convertedLink = convertDropboxLink(originalLink);
+            document.getElementById("convertedLink").textContent = convertedLink;
+        }
+    </script>
+</body>
+</html>
