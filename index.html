@@ -43,10 +43,12 @@
                 return;
             }
 
-            // Extract the file ID from Dropbox URL
-            const match = dropboxLink.match(/(?:https:\/\/www\.dropbox\.com\/s\/)(.*?)(?:\?dl=0)/);
-            if (match && match[1]) {
-                const iframeCode = `<iframe src="https://www.dropbox.com/s/${match[1]}?raw=1" width="640" height="480" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+            // Check if it's a Dropbox content link (dl.dropboxusercontent.com)
+            const contentLinkMatch = dropboxLink.match(/https:\/\/dl\.dropboxusercontent\.com\/.*\/(.*)\?/);
+
+            if (contentLinkMatch && contentLinkMatch[0]) {
+                // Generate iframe from Dropbox content link
+                const iframeCode = `<iframe src="${dropboxLink.replace('?dl=0', '?raw=1')}" width="640" height="480" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
                 document.getElementById('iframeOutput').textContent = iframeCode;
             } else {
                 alert('Invalid Dropbox link');
