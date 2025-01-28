@@ -129,15 +129,17 @@
             if (!originalLink.includes("dropbox.com")) {
                 return "Invalid Dropbox link.";
             }
-            // Replacing Dropbox URL format for direct access
+
+            // Convert Dropbox URL format for direct access
             let convertedLink = originalLink
                 .replace("www.dropbox.com", "dl.dropboxusercontent.com")
                 .replace("dropbox.com", "dl.dropboxusercontent.com");
 
-            // Ensuring the correct ending for direct download links
+            // Ensure the correct ending for direct download links
             if (!convertedLink.includes("?raw=1")) {
                 convertedLink += "?raw=1";
             }
+
             return convertedLink;
         }
 
@@ -161,16 +163,20 @@
             }
 
             // Validate Dropbox link
-            if (!inputLink.includes("dropboxusercontent.com")) {
-                document.getElementById("iframeEmbedCode").textContent = "Invalid Dropbox link. Please enter a valid 'dropboxusercontent' link.";
+            if (!inputLink.includes("dropbox.com") && !inputLink.includes("dropboxusercontent.com")) {
+                document.getElementById("iframeEmbedCode").textContent = "Invalid Dropbox link. Please enter a valid link.";
                 return;
             }
 
-            // Ensure the link starts with 'https://' for the iframe
-            let formattedLink = inputLink.startsWith('http') ? inputLink : 'https://' + inputLink;
+            // If link is from Dropbox, make sure it's formatted properly
+            let formattedLink = inputLink;
+
+            if (!formattedLink.includes("https://")) {
+                formattedLink = "https://" + formattedLink;
+            }
 
             // Generating iframe embed code
-            const iframeCode = `<div><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="${formattedLink}" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="encrypted-media *;"></iframe></div></div><script async src="//iframely.net/embed.js"></script>`;
+            const iframeCode = `<iframe src="${formattedLink}" style="border:0; width: 100%; height: 500px;" frameborder="0" allowfullscreen></iframe>`;
 
             // Display the generated iframe embed code
             document.getElementById("iframeEmbedCode").textContent = iframeCode;
