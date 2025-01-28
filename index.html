@@ -5,71 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dropbox Link to Iframe Converter</title>
     <style>
+        /* Global Styles */
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            color: #333;
             text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
-        input, button {
-            padding: 10px;
-            margin: 10px;
-            width: 300px;
-            font-size: 16px;
+
+        h1 {
+            font-size: 2.5rem;
+            color: #2d5d87;
+            margin-bottom: 20px;
         }
-        .iframe-output {
-            margin-top: 20px;
+
+        p {
+            font-size: 1.1rem;
+            color: #5f6d7e;
+            margin-bottom: 30px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Input and Button Styles */
+        input {
             width: 100%;
-            max-width: 800px;
-            height: auto;
+            max-width: 600px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease-in-out;
         }
-        iframe {
-            width: 100%;
-            height: 0;
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        button {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1.1rem;
             border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Output Styles */
+        .output {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            max-width: 600px;
+            word-wrap: break-word;
+            color: #4f5b66;
+            line-height: 1.5;
+            background-color: #f1f3f5;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        pre {
+            word-wrap: break-word;
+            word-break: break-word;
+            background-color: #2d3748;
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Box-shadow effect for input and button */
+        input, button {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            input {
+                max-width: 90%;
+            }
+
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Dropbox Link to Iframe Converter</h1>
-    <label for="dropboxLink">Enter Dropbox Shareable Link:</label>
-    <input type="text" id="dropboxLink" placeholder="Enter Dropbox URL" />
-    <button onclick="convertToIframe()">Convert to Iframe</button>
+    <p>Enter your Dropbox link below to convert it into an iframe embed code.</p>
+
+    <!-- Input for link -->
+    <input type="text" id="inputLink" placeholder="Enter Dropbox link" />
+    <br />
+    <button onclick="generateIframeCode()">Generate Iframe</button>
     
-    <div class="iframe-output" id="iframeOutput"></div>
+    <!-- Output section for iframe code -->
+    <div class="output">
+        <strong>Generated Iframe Embed Code:</strong>
+        <pre id="iframeEmbedCode"></pre>
+    </div>
 
     <script>
-        function convertToIframe() {
-            const dropboxLink = document.getElementById('dropboxLink').value;
-            if (!dropboxLink) {
-                alert('Please enter a Dropbox link');
+        // Function to generate iframe embed code
+        function generateIframeCode() {
+            const inputLink = document.getElementById("inputLink").value.trim();
+
+            if (inputLink === "") {
+                document.getElementById("iframeEmbedCode").textContent = "Please enter a valid Dropbox link.";
                 return;
             }
 
-            // Check if it's a valid Dropbox shared link
-            const contentLinkMatch = dropboxLink.match(/https:\/\/www\.dropbox\.com\/scl\/fi\/([^?]+)\?/);
-
-            if (contentLinkMatch && contentLinkMatch[1]) {
-                // Construct the raw Dropbox URL for embedding
-                const rawLink = `https://www.dropbox.com/scl/fi/${contentLinkMatch[1]}?raw=1`;
-
-                // Generate iframe with responsive design
-                const iframeCode = `
-                    <div style="position: relative; width: 100%; padding-bottom: 56.25%;">
-                        <iframe src="${rawLink}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen></iframe>
-                    </div>
-                `;
-                
-                document.getElementById('iframeOutput').textContent = iframeCode;
-            } else {
-                alert('Invalid Dropbox link');
+            // Validate Dropbox link
+            if (!inputLink.includes("dropboxusercontent.com")) {
+                document.getElementById("iframeEmbedCode").textContent = "Invalid Dropbox link. Please enter a valid 'dropboxusercontent' link.";
+                return;
             }
+
+            // Ensure the link starts with 'https://' for the iframe
+            let formattedLink = inputLink.startsWith('http') ? inputLink : 'https://' + inputLink;
+
+            // Generating iframe embed code
+            const iframeCode = `<div><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="${formattedLink}" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="encrypted-media *;"></iframe></div></div><script async src="//iframely.net/embed.js"></script>`;
+
+            // Display the generated iframe embed code
+            document.getElementById("iframeEmbedCode").textContent = iframeCode;
         }
     </script>
 </body>
