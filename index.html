@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Embed Code Generator</title>
+    <title>Dropbox Link to Iframe Converter</title>
     <style>
         /* Global Styles */
         body {
@@ -118,11 +118,11 @@
     </style>
 </head>
 <body>
-    <h1>Iframe Embed Code Generator</h1>
-    <p>Enter your link below to convert it into an iframe embed code.</p>
+    <h1>Dropbox Link to Iframe Converter</h1>
+    <p>Enter your Dropbox link below to convert it into an iframe embed code.</p>
 
     <!-- Input for link -->
-    <input type="text" id="inputLink" placeholder="Enter the link" />
+    <input type="text" id="inputLink" placeholder="Enter Dropbox link" />
     <br />
     <button onclick="generateIframeCode()">Generate Iframe</button>
     
@@ -138,17 +138,24 @@
             const inputLink = document.getElementById("inputLink").value.trim();
 
             if (inputLink === "") {
-                document.getElementById("iframeEmbedCode").textContent = "Please enter a valid link.";
-            } else {
-                // Ensuring the link starts with // or http:// to make the iframe work
-                let formattedLink = inputLink.startsWith('http') ? inputLink : '//' + inputLink;
-
-                // Generating iframe embed code
-                const iframeCode = `<div><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="${formattedLink}" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="encrypted-media *;"></iframe></div></div><script async src="//iframely.net/embed.js"></script>`;
-
-                // Display the generated iframe embed code
-                document.getElementById("iframeEmbedCode").textContent = iframeCode;
+                document.getElementById("iframeEmbedCode").textContent = "Please enter a valid Dropbox link.";
+                return;
             }
+
+            // Validate Dropbox link
+            if (!inputLink.includes("dropboxusercontent.com")) {
+                document.getElementById("iframeEmbedCode").textContent = "Invalid Dropbox link. Please enter a valid 'dropboxusercontent' link.";
+                return;
+            }
+
+            // Ensure the link starts with 'https://' for the iframe
+            let formattedLink = inputLink.startsWith('http') ? inputLink : 'https://' + inputLink;
+
+            // Generating iframe embed code
+            const iframeCode = `<div><div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="${formattedLink}" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen allow="encrypted-media *;"></iframe></div></div><script async src="//iframely.net/embed.js"></script>`;
+
+            // Display the generated iframe embed code
+            document.getElementById("iframeEmbedCode").textContent = iframeCode;
         }
     </script>
 </body>
