@@ -8,30 +8,76 @@
         /* Global Styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7fc;
-            color: #333;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
             text-align: center;
             margin: 0;
             padding: 0;
-            height: 100%;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e3c72;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #007bff;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0056b3;
         }
 
         /* Header Styles */
         header {
-            background-color: #2a4d77;
-            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             padding: 20px;
             text-align: center;
             width: 100%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             font-size: 2.5rem;
-            color: white;
             margin: 0;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Content Styles */
+        main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        a {
+            color: #00bcd4;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0097a7;
         }
 
         /* Input and Button Styles */
@@ -40,56 +86,147 @@
             max-width: 600px;
             padding: 12px 20px;
             font-size: 1rem;
-            border: 2px solid #ddd;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
             margin-bottom: 20px;
             outline: none;
             box-sizing: border-box;
-            transition: border-color 0.3s ease-in-out;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
         }
 
         input:focus {
-            border-color: #007bff;
+            border-color: #00bcd4;
+            box-shadow: 0 0 12px rgba(0, 188, 212, 0.5);
         }
 
         button {
             padding: 12px 25px;
-            background-color: #007bff;
+            background-color: #00bcd4;
             color: white;
             font-size: 1.1rem;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 188, 212, 0.3);
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #0097a7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 188, 212, 0.5);
         }
 
-        .output {
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 188, 212, 0.3);
+        }
+
+        /* Result Box Styles */
+        .result-box {
             margin-top: 30px;
-            font-size: 1.1rem;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
             max-width: 600px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .result-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-box strong {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #00bcd4;
+        }
+
+        .result-box p {
+            margin: 0;
+            font-size: 1rem;
+            color: #e0e0e0;
             word-wrap: break-word;
             word-break: break-word;
-            color: #4f5b66;
-            line-height: 1.5;
+        }
+
+        .copy-button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: white;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .copy-button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .copy-button:active {
+            transform: translateY(0);
+        }
+
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .popup.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Footer Styles */
         footer {
-            background-color: #2a4d77;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             color: white;
             padding: 15px;
             text-align: center;
             width: 100%;
             font-size: 0.9rem;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Box-shadow effect for input and button */
-        input, button {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        footer a {
+            color: #00bcd4;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #0097a7;
         }
 
         /* Responsive Styles */
@@ -139,24 +276,31 @@
     </header>
 
     <main>
-        <p>Enter your Dropbox link below to convert it into a direct download link. After Generating <a href='https://iframely.com/try'>Click Here</a> to embend the URL</p>
-        <input type="text" id="originalLink" placeholder="Enter your Dropbox link" />
+        <p>Enter your Dropbox link below to convert it into a direct download link. After generating, <a href="https://iframely.com/try" target="_blank" rel="noopener noreferrer">click here</a> to embed the URL.</p>
+        <input type="text" id="originalLink" placeholder="Enter your Dropbox link" aria-label="Enter your Dropbox link" />
         <br />
-        <button onclick="convert()">Convert</button>
-        <div class="output">
+        <button onclick="convert()" aria-label="Convert Dropbox link">Convert</button>
+
+        <!-- Result Box -->
+        <div class="result-box" id="resultBox">
             <strong>Converted Link:</strong>
-            <p id="convertedLink"></p>
+            <p id="convertedLink">Your converted link will appear here.</p>
+            <button class="copy-button" onclick="copyLink()">Copy Link</button>
         </div>
     </main>
 
+    <!-- Popup -->
+    <div class="popup" id="popup">Link copied to clipboard!</div>
+
     <footer>
-        <p>&copy; 2025 Dropbox Link Converter. All rights reserved. | Created by MS Prime Tech Services</p>
+        <p>&copy; 2025 Dropbox Link Converter. All rights reserved. | Created by <a href="https://msprimetechservices.blogspot.com" target="_blank" rel="noopener noreferrer">MS Prime Tech Services</a></p>
+        <p>Visit our website: <a href="https://msprimetechservices.blogspot.com" target="_blank" rel="noopener noreferrer">msprimetechservices.blogspot.com</a></p>
     </footer>
 
     <script>
         function convertDropboxLink(originalLink) {
             if (!originalLink.includes("dropbox.com")) {
-                return "Invalid Dropbox link.";
+                return "Invalid Dropbox link. Please enter a valid Dropbox URL.";
             }
             // Replacing Dropbox URL format for direct access
             let convertedLink = originalLink
@@ -172,12 +316,41 @@
 
         function convert() {
             const originalLink = document.getElementById("originalLink").value.trim();
+            const outputElement = document.getElementById("convertedLink");
+            const resultBox = document.getElementById("resultBox");
+
             if (originalLink === "") {
-                document.getElementById("convertedLink").textContent = "Please enter a Dropbox link.";
+                outputElement.textContent = "Please enter a Dropbox link.";
+                outputElement.style.color = "#ff6b6b";
+                resultBox.classList.add("visible");
             } else {
                 const convertedLink = convertDropboxLink(originalLink);
-                document.getElementById("convertedLink").textContent = convertedLink;
+                outputElement.textContent = convertedLink;
+                outputElement.style.color = "#e0e0e0";
+                resultBox.classList.add("visible");
             }
+        }
+
+        function copyLink() {
+            const convertedLink = document.getElementById("convertedLink").textContent;
+            if (convertedLink && !convertedLink.startsWith("Your converted link")) {
+                navigator.clipboard.writeText(convertedLink)
+                    .then(() => {
+                        showPopup("Link copied to clipboard!");
+                    })
+                    .catch(() => {
+                        showPopup("Failed to copy link.");
+                    });
+            }
+        }
+
+        function showPopup(message) {
+            const popup = document.getElementById("popup");
+            popup.textContent = message;
+            popup.classList.add("visible");
+            setTimeout(() => {
+                popup.classList.remove("visible");
+            }, 3000);
         }
     </script>
 </body>
